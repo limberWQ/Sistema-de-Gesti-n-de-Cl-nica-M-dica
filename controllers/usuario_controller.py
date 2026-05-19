@@ -1,9 +1,4 @@
-"""
-usuario_controller.py
-Responsabilidad exclusiva: CRUD de la tabla `usuarios`.
-No crea médicos ni pacientes — eso lo hacen sus propios controllers.
-NO hace render_template directamente → delega a views/usuario_view.py
-"""
+
 from flask import Blueprint, redirect, url_for, flash, request
 from flask_login import login_required
 from database import db, solo_admin
