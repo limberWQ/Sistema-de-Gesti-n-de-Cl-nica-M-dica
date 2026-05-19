@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Registrar Consulta{% endblock %}
+{% block page_title %}Registrar Consulta{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow">
+        <div class="card-body p-4">
+
+          <form method="POST">
+            
+            <div class="mb-3">
+              <label for="fecha" class="form-label">Fecha de consulta</label>
+              <input type="date" id="fecha" name="fecha" value="{{ today }}" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="id_medico" class="form-label">Médico</label>
+              <select id="id_medico" name="id_medico" class="form-select" required>
+                <option value="">Seleccionar médico</option>
+                {% for m in medicos %}
+                  <option value="{{ m.id_medico }}">{{ m.usuario.nombre }} ({{ m.especialidad }})</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="id_paciente" class="form-label">Paciente</label>
+              <select id="id_paciente" name="id_paciente" class="form-select" required>
+                <option value="">Seleccionar paciente </option>
+                {% for p in pacientes %}
+                  <option value="{{ p.id_paciente }}">{{ p.usuario.nombre }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="diagnostico" class="form-label">Diagnóstico</label>
+              <textarea id="diagnostico" name="diagnostico" rows="4" class="form-control" required></textarea>
+            </div>
+
+            <div class="mb-4">
+              <label for="tratamiento" class="form-label">Tratamiento</label>
+              <textarea id="tratamiento" name="tratamiento" rows="3" class="form-control"></textarea>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-success">Registrar</button>
+            </div>
+          </form>
+          <p class="text-center mt-3">
+            <a href="{{ url_for('consultas.listar') }}" class="text-decoration-none">Cancelar</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

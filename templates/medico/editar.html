@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Editar Perfil Médico{% endblock %}
+{% block page_title %}Editar Perfil Médico — {{ medico.usuario.nombre }}{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <div class="card shadow p-4">
+        <p >
+          <strong>Usuario:</strong> {{ medico.usuario.nombre }} ({{ medico.usuario.username }})
+        </p>
+        <form method="POST" class="form-center">
+          <div class="mb-3">
+            <label for="especialidad" class="form-label">Especialidad</label>
+            <input type="text" id="especialidad" name="especialidad" value="{{ medico.especialidad }}" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="telefono" class="form-label">Teléfono</label><br>
+            <input type="text" id="telefono" name="telefono" value="{{ medico.telefono or '' }}" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="correo" class="form-label">Correo electrónico</label>
+            <input type="email" id="correo" name="correo" value="{{ medico.correo or '' }}" class="form-control">
+          </div>
+          <div class="d-grid">
+            <button type="submit" class="btn btn-success">Actualizar</button>
+          </div>
+          <p class="text-center mt-3">
+            <a href="{{ url_for('medicos.listar') }}" class="text-decoration-none">Cancelar</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

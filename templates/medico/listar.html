@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Médicos Registrados{% endblock %}
+{% block page_title %}Médicos Registrados{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="mb-4 d-flex gap-2 flex-wrap">
+    <a href="{{ url_for('medicos.registrar') }}" class="btn btn-primary">Asignar perfil médico</a>
+    <a href="{{ url_for('usuarios.index') }}" class="btn btn-dark">Usuarios</a>
+  </div>
+
+  <div class="card shadow">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Username</th>
+              <th>Especialidad</th>
+              <th>Teléfono</th>
+              <th>Correo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for m in medicos %}
+              <tr>
+                <td>{{ m.id_medico }}</td>
+                <td>{{ m.usuario.nombre }}</td>
+                <td>{{ m.usuario.username }}</td>
+                <td>{{ m.especialidad }}</td>
+                <td>{{ m.telefono or '—' }}</td>
+                <td>{{ m.correo or '—' }}</td>
+                <td>
+                  <a href="{{ url_for('medicos.editar', id_medico=m.id_medico) }}" class="btn btn-sm btn-warning">Editar</a>
+                  <form method="POST" action="{{ url_for('medicos.eliminar', id_medico=m.id_medico) }}" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar perfil de médico?')">Eliminar</button>
+                  </form>
+                </td>
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="7" class="text-center">No hay médicos registrados.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

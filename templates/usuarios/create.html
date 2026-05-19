@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Crear Usuario{% endblock %}
+{% block page_title %}Crear Usuario{% endblock %}
+
+{% block content %}
+{% if error %}
+  <p>{{ error }}</p>
+{% endif %}
+
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <div class="card shadow p-4">
+          <form method="POST" class="form-center">
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre completo</label><br>
+              <input type="text" id="nombre" name="nombre" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label><br>
+              <input type="text" id="username" name="username" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input type="password" id="password" name="password" class="form-control" placeholder="default: usuario+123" disabled><br>
+            </div>
+            <div class="mb-3">
+              <label for="rol" class="form-label">Rol</label>
+              <select id="rol" name="rol" class="form-select">
+                <option value="paciente" selected>Paciente</option>
+                <option value="medico">Médico</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <p class="d-grid">
+              <button type="submit" class="btn btn-success">Guardar</button>
+            </p>
+          </form>
+          <p class="text-center mt-3">
+            <a href="{{ url_for('usuarios.index') }}" class="text-decoration-none">Cancelar</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

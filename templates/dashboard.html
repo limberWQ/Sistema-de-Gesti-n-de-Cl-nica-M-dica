@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  {% if sin_perfil %}
+    <div class="alert alert-warning shadow-sm">
+      Tu cuenta aún no tiene un perfil de <strong>{{ current_user.rol }}</strong> asignado. Contacta al administrador.
+    </div>
+
+  {% elif current_user.rol == 'admin' %}
+    <h2 class="mb-4">Panel Administrador</h2>
+
+    <div class="row g-4 mb-5">
+      <div class="col-md-3">
+        <div class="card text-center shadow">
+          <div class="card-body">
+            <h5 class="card-title">Usuarios</h5>
+            <h2>{{ total_usuarios }}</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-center shadow">
+          <div class="card-body">
+            <h5 class="card-title">Médicos</h5>
+            <h2>{{ total_medicos }}</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-center shadow">
+          <div class="card-body">
+            <h5 class="card-title">Pacientes</h5>
+            <h2>{{ total_pacientes }}</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-center shadow">
+          <div class="card-body">
+            <h5 class="card-title">Consultas</h5>
+            <h2>{{ total_consultas }}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card shadow">
+      <div class="card-body">
+        <h4 class="mb-3">Últimas 5 consultas</h4>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover align-middle">
+            <thead class="table-dark">
+              <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Médico</th>
+                <th>Paciente</th>
+                <th>Diagnóstico</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for c in ultimas_consultas %}
+                <tr>
+                  <td>{{ c.id_consulta }}</td>
+                  <td>{{ c.fecha }}</td>
+                  <td>{{ c.medico.usuario.nombre }}</td>
+                  <td>{{ c.paciente.usuario.nombre }}</td>
+                  <td>{{ c.diagnostico }}</td>
+                </tr>
+              {% else %}
+                <tr>
+                  <td colspan="5" class="text-center">Sin consultas registradas.</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  {% elif current_user.rol == 'medico' %}
+    <div class="card shadow p-4">
+      <h2 class="mb-3">Bienvenido/a, Dr./Dra. {{ current_user.nombre }}</h2>
+      <p><strong>Especialidad:</strong> {{ medico.especialidad }}</p>
+      <p><strong>Total de consultas:</strong> {{ consultas | length }}</p>
+      <div class="mt-3">
+        <a href="{{ url_for('medicos.listar_consultas') }}" class="btn btn-dark">Ver mis consultas</a>
+        <a href="{{ url_for('medicos.registrar_consulta') }}" class="btn btn-primary">Registrar consulta</a>
+      </div>
+    </div>
+
+  {% elif current_user.rol == 'paciente' %}
+    <div class="card shadow p-4">
+      <h2 class="mb-3">Bienvenido/a, {{ current_user.nombre }}</h2>
+      <p><strong>Total de consultas:</strong> {{ consultas | length }}</p>
+      <a href="{{ url_for('pacientes.listar_consultas') }}" class="btn btn-dark">Ver mis consultas</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

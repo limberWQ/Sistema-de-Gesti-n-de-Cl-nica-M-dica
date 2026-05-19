@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}Iniciar Sesión{% endblock %}
+
+{% block public_content %}
+<div class="container mt-5">
+  <div class="row justify-content-center g-4">
+    
+    <div class="col-md-5 col-lg-4">
+      <div class="card shadow p-4 h-100">
+        <h4 class="text-center mb-4 text-secondary">Cuentas de Prueba</h4>
+        
+        <div class="mb-3 border-bottom pb-2">
+          <h6 class="fw-bold text-uppercase text-danger mb-1">Administrador</h6>
+          <p class="mb-0 small"><strong>Usuario:</strong> admin</p>
+          <p class="mb-0 small"><strong>Contraseña:</strong> admin123</p>
+        </div>
+
+        <div class="mb-3 border-bottom pb-2">
+          <h6 class="fw-bold text-uppercase text-primary mb-1">Médico</h6>
+          <p class="mb-0 small"><strong>Usuario:</strong> medico</p>
+          <p class="mb-0 small"><strong>Contraseña:</strong> medico123</p>
+        </div>
+
+        <div>
+          <h6 class="fw-bold text-uppercase text-success mb-1">Paciente</h6>
+          <p class="mb-0 small"><strong>Usuario:</strong> paciente</p>
+          <p class="mb-0 small"><strong>Contraseña:</strong> paciente123</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-5 col-lg-4">
+      <div class="card shadow p-4 h-100">
+        <h2 class="text-center mb-4 fs-3">- Iniciar Sesión -<br><small class="text-muted fs-5">Clínica Médica</small></h2>
+        
+        <form method="POST">
+          <div class="mb-3">
+            <label for="username" class="form-label">Usuario</label>
+            <input type="text" id="username" name="username" class="form-control" required placeholder="admin">
+          </div>
+          
+          <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" id="password" name="password" class="form-control" required placeholder="admin123">
+          </div>
+          
+          <div class="d-grid mt-4">
+            <button type="submit" class="btn btn-dark">Ingresar</button>
+          </div>
+        </form>
+        
+        <p class="text-center mt-3 mb-0">
+          <a href="{{ url_for('auth.registro') }}" class="text-decoration-none small">¿No tienes cuenta? Regístrate</a>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

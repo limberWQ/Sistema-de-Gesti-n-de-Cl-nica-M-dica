@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Asignar Perfil de Paciente{% endblock %}
+{% block page_title %}Asignar Perfil de Paciente{% endblock %}
+
+{% block content %}
+{% if error %}
+  <p>{{ error }}</p>
+{% endif %}
+
+{% if not usuarios_disponibles %}
+  <p>No hay usuarios con rol <strong>paciente</strong> sin perfil asignado.
+     <a href="{{ url_for('usuarios.crear') }}">Crea primero un usuario con rol paciente.</a></p>
+{% else %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <div class="card shadow p-4">
+
+        <form method="POST" class="form-center">
+          <div class="mb-3">
+            <label for="id_usuario" class="form-label">Usuario (rol paciente, sin perfil aún)</label><br>
+            <select id="id_usuario" name="id_usuario" class="form-select" required>
+              <option value="">Seleccionar</option>
+              {% for u in usuarios_disponibles %}
+              <option value="{{ u.id_usuario }}">{{ u.nombre }} ({{ u.username }})</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="edad" class="form-label">Edad</label><br>
+            <input type="number" id="edad" name="edad" min="0" max="150" class="form-control">
+          </div>
+          
+          <div class="mb-3">
+            <label for="direccion" class="form-label">Dirección</label><br>
+            <input type="text" id="direccion" name="direccion" class="form-control">
+          </div>
+          <div class="mb-3">
+           <label for="telefono" class="form-label">Teléfono</label><br>
+           <input type="text" id="telefono" name="telefono" class="form-control">
+          </div>
+          <div class="d-grid">
+           <button type="submit" class="btn btn-success">Registrar paciente</button>
+          </div>
+          <p class="text-center mt-3">
+            <a href="{{ url_for('pacientes.listar') }}" class="text-decoration-none">Cancelar</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endif %}
+{% endblock %}

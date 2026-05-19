@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Mis Consultas{% endblock %}
+{% block page_title %}Historial de Consultas{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+  {% if current_user.rol == 'admin' %}
+    <div class="mb-4">
+      <a href="{{ url_for('consultas.listar') }}" class="btn btn-sm btn-outline-primary">
+        Ver todas (admin)
+      </a>
+    </div>
+  {% endif %}
+
+  <div class="card shadow">
+    <div class="card-body">
+      <div class="table-responsive">
+
+        <table class="table table-bordered table-hover align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Fecha</th>
+              <th>Médico</th>
+              <th>Especialidad</th>
+              <th>Diagnóstico</th>
+              <th>Tratamiento</th>
+              {% if current_user.rol == 'paciente' %}
+                <th>Acción</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for c in consultas %}
+              <tr>
+                <td>{{ c.id_consulta }}</td>
+                <td>{{ c.fecha }}</td>
+                <td>{{ c.medico.usuario.nombre }}</td>
+                <td>
+                  <span class="badge bg-info text-dark">
+                    {{ c.medico.especialidad }}
+                  </span>
+                </td>
+                <td>{{ c.diagnostico }}</td>
+                <td>{{ c.tratamiento or '—' }}</td>
+                {% if current_user.rol == 'paciente' %}
+                  <td>
+                    <a href="{{ url_for('pacientes.cancelar_consulta', id_consulta=c.id_consulta) }}" 
+                       class="btn btn-sm btn-danger" 
+                       onclick="return confirm('¿Seguro que deseas cancelar esta consulta?')">
+                      Cancelar
+                    </a>
+                  </td>
+                {% endif %}
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="{{ 7 if current_user.rol == 'paciente' else 6 }}" class="text-center text-muted py-4">
+                  Sin consultas registradas.
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

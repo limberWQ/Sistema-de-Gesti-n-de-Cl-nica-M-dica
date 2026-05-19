@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}Editar Consulta{% endblock %}
+{% block page_title %}Editar Consulta #{{ consulta.id_consulta }}{% endblock %}
+
+{% block content %}
+
+<div class="card shadow border-0">
+  <div class="card-body p-4">
+
+    <form method="POST">
+
+      <div class="mb-3">
+        <label for="fecha" class="form-label fw-semibold"> Fecha </label>
+        <input type="date" id="fecha" name="fecha" class="form-control" value="{{ consulta.fecha }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="id_medico" class="form-label fw-semibold"> Médico </label>
+        <select id="id_medico" name="id_medico" class="form-select"required>
+          {% for m in medicos %}
+          <option value="{{ m.id_medico }}" {% if m.id_medico == consulta.id_medico %}selected{% endif %}>
+            {{ m.usuario.nombre }} ({{ m.especialidad }})
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="id_paciente" class="form-label fw-semibold"> Paciente </label>
+        <select  id="id_paciente"  name="id_paciente"  class="form-select" required>
+          {% for p in pacientes %}
+          <option value="{{ p.id_paciente }}" {% if p.id_paciente == consulta.id_paciente %}selected{% endif %}>
+            {{ p.usuario.nombre }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="diagnostico" class="form-label fw-semibold"> Diagnóstico</label>
+        <textarea id="diagnostico" name="diagnostico"  rows="4" class="form-control" required >{{ consulta.diagnostico }}</textarea>
+      </div>
+
+      <div class="mb-4">
+        <label for="tratamiento" class="form-label fw-semibold"> Tratamiento </label>
+        <textarea  id="tratamiento"  name="tratamiento"  rows="3" class="form-control">{{ consulta.tratamiento or '' }}</textarea>
+      </div>
+
+      <div class="d-grid">
+        <button type="submit" class="btn btn-success"> Actualizar </button>
+      </div>
+
+    </form>
+    <p class="text-center mt-4">
+      <a href="{{ url_for('consultas.listar') }}" class="text-decoration-none">Cancelar</a>
+    </p>
+  </div>
+</div>
+
+{% endblock %}

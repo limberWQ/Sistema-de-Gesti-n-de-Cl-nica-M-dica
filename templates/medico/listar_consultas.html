@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Mis Consultas Médicas{% endblock %}
+{% block page_title %}Mis Consultas Médicas{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+  <div class="mb-4 d-flex gap-2 flex-wrap">
+    <a href="{{ url_for('medicos.registrar_consulta') }}" class="btn btn-primary">
+      Registrar consulta
+    </a>
+    {% if current_user.rol == 'admin' %}
+      <a href="{{ url_for('consultas.listar') }}" class="btn btn-dark">
+        Ver todas (admin)
+      </a>
+    {% endif %}
+  </div>
+
+  <div class="card shadow">
+    <div class="card-body">
+      <div class="table-responsive">
+
+        <table class="table table-bordered table-hover align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Fecha</th>
+              <th>Paciente</th>
+              <th>Diagnóstico</th>
+              <th>Tratamiento</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for c in consultas %}
+              <tr>
+                <td>{{ c.id_consulta }}</td>
+                <td>{{ c.fecha }}</td>
+                <td>{{ c.paciente.usuario.nombre }}</td>
+                <td>{{ c.diagnostico }}</td>
+                <td>{{ c.tratamiento or '—' }}</td>
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="5" class="text-center text-muted py-4">
+                  Sin consultas registradas.
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

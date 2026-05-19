@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Pacientes Registrados{% endblock %}
+{% block page_title %}Pacientes Registrados{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <div class="mb-4 d-flex gap-2 flex-wrap">
+    <a href="{{ url_for('pacientes.registrar') }}" class="btn btn-primary">Asignar perfil paciente</a>
+    <a href="{{ url_for('usuarios.index') }}" class="btn btn-dark">Usuarios</a>
+  </div>
+  <div class="card shadow">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Username</th>
+              <th>Edad</th>
+              <th>Teléfono</th>
+              <th>Dirección</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in pacientes %}
+              <tr>
+                <td>{{ p.id_paciente }}</td>
+                <td>{{ p.usuario.nombre }}</td>
+                <td>{{ p.usuario.username }}</td>
+                <td>{{ p.edad or '—' }}</td>
+                <td>{{ p.telefono or '—' }}</td>
+                <td>{{ p.direccion or '—' }}</td>
+                <td>
+                  <a href="{{ url_for('pacientes.editar', id_paciente=p.id_paciente) }}" class="btn btn-sm btn-warning">Editar</a>
+                  <form method="POST" action="{{ url_for('pacientes.eliminar', id_paciente=p.id_paciente) }}" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar perfil de paciente?')">Eliminar</button>
+                  </form>
+                </td>
+              </tr>
+            {% else %}
+              <tr><td colspan="7" class="text-center">No hay pacientes registrados.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

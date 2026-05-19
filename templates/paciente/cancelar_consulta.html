@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Cancelar Consulta{% endblock %}
+{% block page_title %}Cancelar Consulta{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow border-danger">
+        <div class="card-body p-4">
+
+          <div class="alert alert-danger" role="alert">
+            <h5 class="alert-heading ">¿Confirmas la cancelación?</h5>
+            <p class="mb-0">Esta acción no se puede deshacer. Por favor, revisa los detalles a continuación.</p>
+          </div>
+
+          <ul class="list-group list-group-flush mb-4">
+            <li class="list-group-item d-flex justify-content-between">
+              <strong>ID de Consulta:</strong> 
+              <span class="text-muted">{{ consulta.id_consulta }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <strong>Fecha:</strong> 
+              <span class="text-muted">{{ consulta.fecha }}</span>
+            </li>
+            <li class="list-group-item">
+              <strong>Médico:</strong> <br>
+              <span class="text-muted">{{ consulta.medico.usuario.nombre }} ({{ consulta.medico.especialidad }})</span>
+            </li>
+            <li class="list-group-item">
+              <strong>Diagnóstico:</strong> <br>
+              <span class="text-muted">{{ consulta.diagnostico }}</span>
+            </li>
+            <li class="list-group-item">
+              <strong>Tratamiento:</strong> <br>
+              <span class="text-muted">{{ consulta.tratamiento or '—' }}</span>
+            </li>
+          </ul>
+
+          <div class="d-grid">
+            <form method="POST" class="d-grid">
+              <button type="submit" class="btn btn-danger">Sí, cancelar consulta</button>
+            </form>
+            <p class="text-center mt-4">
+              <a href="{{ url_for('pacientes.listar_consultas') }}" class="text-decoration-none">
+              No, volver
+              </a>
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

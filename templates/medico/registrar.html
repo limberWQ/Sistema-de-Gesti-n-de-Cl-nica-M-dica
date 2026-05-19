@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Asignar Perfil de Médico{% endblock %}
+{% block page_title %}Asignar Perfil de Médico{% endblock %}
+
+{% block content %}
+{% if error %}
+  <p>{{ error }}</p>
+{% endif %}
+
+{% if not usuarios_disponibles %}
+  <p class="mb-2 text-capitalize">No hay usuarios con rol <strong>médico</strong> sin perfil asignado.
+     <a href="{{ url_for('usuarios.crear') }}" class="btn btn-dark btn-sm">Crea primero un usuario con rol médico.</a>
+  </p>
+{% else %}
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <div class="card shadow p-4">
+          <form method="POST" class="form-center">
+            <div class="mb-3">
+              <label for="id_usuario" class="form-label">Usuario (rol médico, sin perfil aún)</label>
+              <select id="id_usuario" name="id_usuario" class="form-select" required>
+                <option value="">Seleccionar</option>
+                {% for u in usuarios_disponibles %}
+                <option value="{{ u.id_usuario }}">{{ u.nombre }} ({{ u.username }})</option>
+                {% endfor %}
+              </select>
+            </div>
+            
+
+            <div class="mb-3">
+              <label for="especialidad" class="form-label">Especialidad</label><br>
+              <input type="text" id="especialidad" name="especialidad" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="telefono" class="form-label">Teléfono</label><br>
+              <input type="text" id="telefono" name="telefono" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="correo" class="form-label">Correo electrónico</label>
+              <input type="email" id="correo" name="correo" class="form-control" required>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-success">Registrar médico</button>
+            </div>
+          </form>
+          <p class="text-center mt-3">
+            <a href="{{ url_for('usuarios.index') }}" class="text-decoration-none">Cancelar</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}
