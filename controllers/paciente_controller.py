@@ -1,24 +1,3 @@
-"""
-paciente_controller.py
-Responsabilidades:
-  - Admin: CRUD de perfiles de paciente
-  - Paciente: ver sus consultas, cancelar consulta
-NO hace render_template directamente → delega a views/paciente_view.py
-
-── BUG CORREGIDO ────────────────────────────────────────────────────
-Problema original: el controller NO validaba que id_usuario existiera
-ni que el usuario tuviera rol 'paciente'. Si id_usuario llegaba vacío
-o inválido, SQLAlchemy fallaba con IntegrityError (FK nula) pero sin
-rollback → la sesión quedaba en estado corrupto y los commits
-posteriores también fallaban silenciosamente.
-
-Correcciones aplicadas:
-  1. Validación de id_usuario antes de crear el objeto.
-  2. Verificación de que el usuario exista y tenga rol 'paciente'.
-  3. Verificación de duplicado en backend (no solo en UI).
-  4. Bloque try/except con db.session.rollback() en caso de error.
-  5. Cast explícito a int para evitar errores de tipo en la FK.
-"""
 from flask import Blueprint, redirect, url_for, flash, request, abort
 from flask_login import login_required, current_user
 from database import db, solo_admin, solo_roles
